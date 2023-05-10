@@ -23,6 +23,21 @@ const createUser = async (req, res) => {
   }
 };
 
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await UserService.getAllUsers();
+    if (!users) throw Error;
+    
+    return res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({
+      message: 'Erro ao buscar usuários no banco',
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   createUser,
+  getAllUsers,
 };

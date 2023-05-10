@@ -12,7 +12,7 @@ const validateJwt = async (req, res, next) => {
     req.payload = data;
     next();
   } catch (error) {
-    return res.status(500)
+    return res.status(401)
     .json({ 
       message: 'Expired or invalid token', 
       error: 'Expired or invalid token' });
