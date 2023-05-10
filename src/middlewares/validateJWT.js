@@ -5,7 +5,7 @@ const validateJwt = async (req, res, next) => {
     const { authorization } = req.headers;
 
     if (!authorization) {
-      return res.status(401).json({ message: 'Insira um token válido!' });
+      return res.status(401).json({ message: 'Token not found' });
     } 
 
     const data = verifyToken(authorization);
@@ -14,8 +14,8 @@ const validateJwt = async (req, res, next) => {
   } catch (error) {
     return res.status(500)
     .json({ 
-      message: 'Erro ao acessar o endpoint', 
-      error: 'É necessário um token válido para esse endpoint' });
+      message: 'Expired or invalid token', 
+      error: 'Expired or invalid token' });
   }
 };
 
