@@ -20,4 +20,6 @@ PostController.createPost,
 
 postRouter.put('/post/:id', validateJwt, validatePutCategory, PostController.updatePost);
 
+postRouter.delete('/post/:id', validateJwt, PostController.excludePost);
+
 module.exports = postRouter;

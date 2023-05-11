@@ -61,9 +61,17 @@ const updatePost = async ({ id, title, content }) => {
     return post;
   };
 
+  const excludePost = async (id) => {
+    const post = await BlogPost.destroy(
+      { where: { id } },
+    );
+    return post;
+  };
+
 module.exports = {
   createPost,
   getPostId,
   getAllposts,
   updatePost,
+  excludePost,
 };

@@ -71,9 +71,31 @@ const updatePost = async (req, res) => {
   }
 };
 
+const excludePost = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { payload } = req;
+    const post = await PostService.getPostId(id);
+    if (!post) {
+      return res.status(404).json({ message: 'Post does not exist' });
+    }
+    if (payload.data.id !== post.userId) {
+      return res.status(401).json({ message: 'Unauthorized user' });
+    }
+    await PostService.excludePost(id);
+    return res.status(204).json({ message: 'Post deleted!' });
+  } catch (error) {
+    return res.status(500).json({
+      message: 'Erro ao excluir o post do banco de dados!',
+      error: error.message,
+  });
+  }
+};
+
 module.exports = {
   createPost,
   getAllposts,
   getPostId,
   updatePost,
+  excludePost,
 };
