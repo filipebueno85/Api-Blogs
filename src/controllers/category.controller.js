@@ -20,6 +20,21 @@ const createCategory = async (req, res) => {
   }
 };
 
+const getAllCategories = async (req, res) => {
+  try {
+    const categories = await CategorySevice.getAllCategories();
+    if (!categories) throw Error;
+
+    return res.status(200).json(categories);
+  } catch (error) {
+    res.status(500).json({
+      message: 'Erro ao buscar as categorias no banco',
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   createCategory,
+  getAllCategories,
 };
