@@ -17,9 +17,17 @@ const getUserById = async (id) => User.findOne({
   attributes: { exclude: ['password'] },
 });
 
+const excludeUser = async (id) => {
+  const user = await User.destroy(
+    { where: { id } },
+  );
+  return user;
+};
+
 module.exports = {
   createUser,
   getAllUsers,
   getUserById,
   getByEmail,
+  excludeUser,
 };

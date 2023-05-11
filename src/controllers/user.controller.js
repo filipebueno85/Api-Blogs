@@ -41,7 +41,7 @@ const getUserById = async (req, res) => {
   try {
     const { id } = req.params;
     const user = await UserService.getUserById(id);
-    console.log(user);
+    // console.log(user);
     if (!user) return res.status(404).json({ message: 'User does not exist' });
     
     return res.status(200).json(user);
@@ -53,8 +53,16 @@ const getUserById = async (req, res) => {
   }
 };
 
+const excludeUser = async (req, res) => {
+    const { payload } = req;
+
+    await UserService.excludeUser(payload.data.id);
+    return res.status(204).json();
+};
+
 module.exports = {
   createUser,
   getAllUsers,
   getUserById,
+  excludeUser,
 };
