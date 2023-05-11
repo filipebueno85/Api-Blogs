@@ -6,6 +6,8 @@ const validateCategory = require('../middlewares/validateCategory');
 
 const postRouter = express.Router();
 
+postRouter.get('/post', validateJwt, PostController.getAllposts);
+
 postRouter.post(
 '/post',
 validateJwt,

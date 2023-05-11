@@ -1,13 +1,30 @@
-const { BlogPost, PostCategory, sequelize } = require('../models');
-// const CategoryService = require('./category.service');
+const { BlogPost, User, Category, PostCategory, sequelize } = require('../models');
 
 const getPostId = async (id) => {
   const category = await BlogPost.findAll({
     where: { id },
     include: [{ through: { attributes: [] }, attributes: { include: ['published', 'updated'] } }],
   });
-  // console.log(category);
   return category;
+};
+
+const getAllposts = async () => {
+  const posts = await BlogPost.findAll({
+    // where: { id },
+    include: [{
+      model: User,
+      as: 'user',
+      // through: { attributes: [] },
+    attributes: { exclude: ['password'] },
+    },
+    {
+      model: Category,
+      as: 'categories',
+      through: { attributes: [] }, 
+      // attributes,
+    }],
+  });
+  return posts;
 };
 
 const createPost = async ({ title, content, categoryIds, userId, updated, published }) => {
@@ -26,10 +43,10 @@ const createPost = async ({ title, content, categoryIds, userId, updated, publis
   });
 
   return result;
-  // const post = await BlogPost.create({ title, content, categoryIds });
 };
 
 module.exports = {
   createPost,
   getPostId,
+  getAllposts,
 };

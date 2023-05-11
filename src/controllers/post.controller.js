@@ -22,6 +22,19 @@ const createPost = async (req, res) => {
   }
   };
 
+  const getAllposts = async (req, res) => {
+    try {
+      const posts = await PostService.getAllposts();
+      return res.status(200).json(posts);
+    } catch (error) {
+      return res.status(500).json({
+        message: 'Erro ao fazer a requisição no banco de dados!',
+        error: error.message,
+    });
+  }
+};
+
 module.exports = {
   createPost,
+  getAllposts,
 };
