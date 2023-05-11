@@ -50,8 +50,30 @@ const createPost = async (req, res) => {
   }
 };
 
+const updatePost = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, content } = req.body;
+    const { payload } = req;
+
+    await PostService.updatePost({ id, title, content });
+    const newPost = await PostService.getPostId(id);
+
+    if (payload.data.id !== newPost.userId) {
+      return res.status(401).json({ message: 'Unauthorized user' });
+    } 
+    return res.status(200).json(newPost);
+  } catch (error) {
+    return res.status(500).json({
+      message: 'Erro ao fazer ao atualizar os dados no banco de dados!',
+      error: error.message,
+  });
+  }
+};
+
 module.exports = {
   createPost,
   getAllposts,
   getPostId,
+  updatePost,
 };

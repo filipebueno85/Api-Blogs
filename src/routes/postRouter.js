@@ -3,6 +3,7 @@ const PostController = require('../controllers/post.controller');
 const validatePostCategory = require('../middlewares/validatePostCategory');
 const validateJwt = require('../middlewares/validateJWT');
 const validateCategory = require('../middlewares/validateCategory');
+const validatePutCategory = require('../middlewares/validatePutCategory');
 
 const postRouter = express.Router();
 
@@ -16,5 +17,7 @@ validateCategory,
 validatePostCategory, 
 PostController.createPost,
 );
+
+postRouter.put('/post/:id', validateJwt, validatePutCategory, PostController.updatePost);
 
 module.exports = postRouter;
