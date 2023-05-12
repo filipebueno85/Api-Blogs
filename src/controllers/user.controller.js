@@ -56,8 +56,11 @@ const getUserById = async (req, res) => {
 const excludeUser = async (req, res) => {
     const { payload } = req;
 
-    await UserService.excludeUser(payload.data.id);
-    return res.status(204).json();
+    const user = await UserService.excludeUser(payload.data.id);
+    if (!user) {
+      return res.status(404).json({ message: 'User does not exist' });
+    }
+    return res.status(204).json({ message: 'User deleted!' });
 };
 
 module.exports = {

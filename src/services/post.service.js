@@ -1,4 +1,7 @@
+const Sequelize = require('sequelize');
 const { BlogPost, User, Category, PostCategory, sequelize } = require('../models');
+
+const { Op } = Sequelize;
 
 const getPostId = async (id) => {
   const category = await BlogPost.findOne({
@@ -68,10 +71,32 @@ const updatePost = async ({ id, title, content }) => {
     return post;
   };
 
+  const searchPosts = async (q) => {
+    const search = await BlogPost.findAll({ 
+      where: {
+        [Op.or]: [
+          { title: { [Op.substring]: q } }, { content: { [Op.substring]: q } },
+        ],
+      },
+      include: [{
+        model: User,
+        as: 'user',
+      attributes: { exclude: ['password'] },
+    },
+    {
+      model: Category,
+      as: 'categories',
+      through: { attributes: [] }, 
+    }], 
+    });
+    return search;
+  }; 
+
 module.exports = {
   createPost,
   getPostId,
   getAllposts,
   updatePost,
   excludePost,
+  searchPosts,
 };

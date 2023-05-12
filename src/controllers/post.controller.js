@@ -92,10 +92,30 @@ const excludePost = async (req, res) => {
   }
 };
 
+const searchPosts = async (req, res) => {
+  try {
+    const { q } = req.query;
+    const search = await PostService.searchPosts(q);
+    console.log(search);
+    const all = await PostService.getAllposts();
+    if (!q) {
+      return res.status(200).json(all);
+    }
+  
+      return res.status(200).json(search);
+  } catch (error) {
+    return res.status(500).json({
+      message: 'Busca não realizada!',
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   createPost,
   getAllposts,
   getPostId,
   updatePost,
   excludePost,
+  searchPosts,
 };

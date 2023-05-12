@@ -7,6 +7,7 @@ const validatePutCategory = require('../middlewares/validatePutCategory');
 
 const postRouter = express.Router();
 
+postRouter.get('/post/search', validateJwt, PostController.searchPosts);
 postRouter.get('/post', validateJwt, PostController.getAllposts);
 postRouter.get('/post/:id', validateJwt, PostController.getPostId);
 
